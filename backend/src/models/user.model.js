@@ -17,7 +17,7 @@ const userSchema = new Schema({
     },
     userImage:{
         type: String,
-        default: "https://cdn-icons-png.flaticon.com/512/219/219969.png"
+        default: "https://cdn.wallpapersafari.com/51/76/3TFfqI.jpg"
     }
     
 },{timestamps: true})
