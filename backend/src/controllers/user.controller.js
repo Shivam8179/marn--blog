@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/apiResponse.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
 
@@ -50,6 +51,45 @@ const updateDetail = async (req, res) => {
 const udateUserImage = async (req, res) => {
 
     //logic
+    try {
+       const userImagePath = res.file?.path;
+       
+       if(!userImagePath){
+        throw new ApiError(404, "user image path not found");
+       }
+       
+       const userImage = await uploadOnCloudinary(userImagePath)
+
+       if(!userImage){
+        throw new ApiError(404, "user Image from cloudinary not found");
+
+       }
+
+       const user = User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set: {
+                userImage: userImage.url
+            }
+        },
+        {new : true}
+
+       ).select(" -password ");
+       if(!user){
+        throw  new ApiError(400, " userImage updation proccess failed")
+
+       }
+       return res.status(200)
+       .json(
+         new ApiResponse(200, udateUser, "userImage  updated successfully")
+       )
+    
+       
+    } catch (error) {
+        throw new ApiError(400,error.message)
+
+        
+    }
 
 }
 
@@ -85,7 +125,8 @@ const changePassword = async (req, res) => {
        await user.save();
 
        return res.status(200)
-       .json(new ApiResponse(200, {}, "password changed successfully"))
+       .json( 
+        new ApiResponse(200,user, "password changed successfully"))
 
         
     } catch (error) {

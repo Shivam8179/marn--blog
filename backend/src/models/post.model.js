@@ -3,26 +3,23 @@ import mongoose, { Schema } from 'mongoose'
 const postSchema = new Schema({
     title: {
         type: String,
-       
         required: true,
     },
-    Content:{
+    content:{
         type: String,
         required: true,
-        
     },
-    UserId: {
+    userId: {
         type: mongoose.Types.ObjectId,
         ref:"User",
-
-        required: true,
+        required:true
     },
     postImage:{
         type: String,
         default: "https://cdn-icons-png.flaticon.com/512/219/219969.png"
     },
     slug:{
-        types: String,
+        type: String,
         required: true,
         unique: true,
     }
