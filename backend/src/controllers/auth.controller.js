@@ -139,7 +139,7 @@ const signIn = async (req, res) => {
 
 }
 
-const signOut = async (req, res) => {
+const signOut = async (req, res) => {s
     // logic
     const options = {
             httpOnly: true,

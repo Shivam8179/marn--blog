@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import cors from "cors";
 
 dotenv.config({
     path: './.env'
@@ -13,6 +14,8 @@ import authRouter from './routes/auth.route.js';
 import cookieParser from "cookie-parser";
 import userRouter from './routes/user.route.js';
 import postRouter from './routes/post.routes.js';
+import commentRouter from './routes/comment.routes.js';
+
 
 
 const app = express();
@@ -21,6 +24,13 @@ app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
+
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+})
+);
+
 
 app.use(express.json())
 
@@ -37,7 +47,8 @@ connection().then(() => {
 app.use("/api/auth",authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter );
-console.log("hello");
+app.use("/api/comment",commentRouter)
+
 
 
         
