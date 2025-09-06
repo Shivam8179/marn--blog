@@ -6,7 +6,7 @@ function Home() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch("/api/post/get-post");
+        const res = await fetch("/api/post/get-posts");
         const result = await res.json();
         console.log("API Response:", result);
         setPost(result?.data?.allPosts || []); // <-- updated key
